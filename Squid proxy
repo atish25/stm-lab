@@ -1,0 +1,51 @@
+# yum install squid -y 
+start restart enable
+firewall stop 
+# cd /etc/squid --- store config 
+# cd /var/spool/squid --- cache 
+# cd /var/log/squid ----log 
+vim /etc/squid/squid.conf 
+1) acl atish src 192.168.144.31/24 
+http_access allow/deny atish ----------------perticular ip allow/deny 
+2) acl atish src 192.168.144.0/24 
+http_access allow/deny atish ---------------- all network allow/deny 
+3) acl atish src 192.168.144.10-20 
+http_access allow/deny atish ---------------- network range 
+4) acl atish dstdomain .facebook.com .wikipedia.com  
+http_access allow/deny atish ---------------------------domain 
+5) acl atish url_regex ^http://*reddit.com /.*$http_access deny atish  
+6) cat > /etc/squid/blocksite.squid
+   .tesla.com
+   .gmail.com
+  vim /etc/squid/squid.conf
+
+  acl blocksite dstdomain "/etc/squid/blocksite.squid" 
+  http_access deny blocksite -------------------------------------mul domain name blk 
+
+  acl blocksite url_regex "/etc/squid/blocksite.squid" 
+  http_access deny blocksite ------------------------------------mul url blk 
+
+  acl safe_port port 80 21 443 
+  http_access deny !safe_port -----------------------------------port blk
+
+  acl safe_port port 80 
+  http_access deny safe_port ------------------------------------- single port blk 
+
+
+==vim /etc/squid/ban_keywords.txt
+gambling 
+spyware
+:wq 
+vim /etc/squid/squid.conf
+ acl bad_keywords url_regex "/etc/squid/ban_keywords.txt"
+http_access deny bad_keywords -----------------------------------------blk specific words 
+
+
+
+
+ ==vim /etc/squid/blockfiles.txt
+/.torent.*$
+vim /etc/squid/squid.conf
+acl bad_keywords urlpath_regex "/etc/squid/blockfiles.txt"
+http_access deny blockfiles
+
