@@ -1,0 +1,38 @@
+
+Create a Centos VM which will act as server and one client VM either CentOS or ubuntu.
+
+
+Q1. Find out all zones available on your system
+
+Q2. Create an apache server [http server], host a website. Allow connection to the server by client.
+
+Q3. Check the default zone. Make any of the available zone as the default zone:-
+
+Q4. Set "public" as your default zone and deny ssh connection for any client. 
+
+Q5. Try to ping from client to server. Now block the ping service. Try to ping from client to server. Observe the output on client side. Also figure-out how ping works. [Hint: IC** e**o]
+Ans:
+firewall-cmd --zone=public --add-icmp-block=echo-request --permanent
+firewall-cmd --reload
+
+Q6. Now for above question remove rule from firewall.
+Ans:
+firewall-cmd --zone=public --remove-icmp-block=echo-request --permanent
+firewall-cmd --reload
+firewall --list-all
+
+
+Q7. Block ssh service not by service name but its port number.
+
+
+
+
+---------------
+
+Add Host only interface to your system.
+
+Q8. Create a new zone name "cdac". Add host-only interface to it. Make it default zone.
+
+---------------
+
+Q9. Block ping service for specific IP. [ Hint: rich rule ]
